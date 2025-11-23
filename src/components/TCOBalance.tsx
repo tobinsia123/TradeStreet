@@ -57,7 +57,12 @@ export function TCOBalance() {
     );
   }
 
-  if (balance === undefined || decimals === undefined) {
+  if (balance === undefined || balance === null || decimals === undefined || decimals === null) {
+    return null;
+  }
+
+  // Type guard: ensure balance is bigint and decimals is number
+  if (typeof balance !== 'bigint' || typeof decimals !== 'number') {
     return null;
   }
 
