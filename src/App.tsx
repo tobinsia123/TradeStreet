@@ -5,8 +5,9 @@ import { StockChart } from './components/StockChart';
 import { TradePanel } from './components/TradePanel';
 import { NewsFeed } from './components/NewsFeed';
 import { PortfolioSummary } from './components/PortfolioSummary';
-// types imported where needed; no direct imports here
 import AuthButton from './components/AuthButton';
+import { WalletConnect } from './components/WalletConnect';
+import { TCOBalance } from './components/TCOBalance';
 
 function App() {
   const { state, isLoading, error, handleBuy, handleSell } = useMarket();
@@ -60,11 +61,13 @@ function App() {
               <h1 className="text-2xl font-bold text-green-400">TradeStreet</h1>
               <p className="text-gray-400 text-sm">AI Synthetic Market</p>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
               <div className="text-right hidden sm:block">
                 <div className="text-gray-400 text-sm">Market Status</div>
                 <div className="text-green-400 font-bold">● LIVE</div>
               </div>
+              <TCOBalance />
+              <WalletConnect />
               <AuthButton />
             </div>
           </div>

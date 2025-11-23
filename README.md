@@ -9,14 +9,18 @@ An AI-powered synthetic stock market environment where AI-generated company news
 - **Real-Time Price Movement**: Prices update every 4 seconds based on sentiment, volatility, and random drift
 - **Trading Engine**: Buy and sell stocks with virtual cash ($100,000 starting balance)
 - **Portfolio Tracking**: Real-time portfolio value and P&L calculations
-- **Live Charts**: Price history visualization using Recharts
+- **Live Charts**: Price history visualization using lightweight-charts
+- **Web3 Wallet Integration**: Connect MetaMask or other wallets on Base network
+- **TradeCoin (TCO) Balance**: Display your TCO token balance from Base network
 - **Terminal UI**: Minimalist trading terminal interface
 
 ## 🛠 Tech Stack
 
 - React 18 + Vite + TypeScript
 - Tailwind CSS for styling
-- Recharts for data visualization
+- lightweight-charts for candlestick charts
+- wagmi + viem for Web3 wallet connectivity
+- Base network support
 - Claude API for AI generation
 - LocalStorage for state persistence
 
@@ -37,9 +41,11 @@ npm install
 Create a `.env` file in the root directory:
 ```bash
 VITE_CLAUDE_API_KEY=your_claude_api_key_here
+VITE_TCO_TOKEN_ADDRESS=0xYourTCOContractAddressOnBase
 ```
 
-You can get a Claude API key from [Anthropic](https://console.anthropic.com/).
+- Get a Claude API key from [Anthropic](https://console.anthropic.com/)
+- Set `VITE_TCO_TOKEN_ADDRESS` to your TradeCoin (TCO) token contract address on Base network
 
 4. Start the development server:
 ```bash
