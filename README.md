@@ -2,7 +2,7 @@
 
 An AI-powered synthetic stock market environment where AI-generated company news and sentiment dynamically move asset prices.
 
-## 🚀 Features
+## Features
 
 - **Synthetic Companies**: AI-generated fictional companies with realistic profiles
 - **AI News Engine**: Claude generates news events with sentiment and magnitude values every 30 seconds
@@ -14,7 +14,7 @@ An AI-powered synthetic stock market environment where AI-generated company news
 - **TradeCoin (TCO) Balance**: Display your TCO token balance from Base network
 - **Terminal UI**: Minimalist trading terminal interface
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - React 18 + Vite + TypeScript
 - Tailwind CSS for styling
@@ -24,7 +24,7 @@ An AI-powered synthetic stock market environment where AI-generated company news
 - Claude API for AI generation
 - LocalStorage for state persistence
 
-## 📦 Installation
+## Installation
 
 1. Clone the repository:
 ```bash
@@ -54,7 +54,7 @@ npm run dev
 
 5. Open your browser to `http://localhost:5173`
 
-## 🎮 Usage
+## Usage
 
 1. **View Markets**: Browse the list of synthetic companies on the left
 2. **Select a Stock**: Click on any stock card to view its chart and details
@@ -62,7 +62,7 @@ npm run dev
 4. **Monitor News**: Watch the news feed for AI-generated market events
 5. **Track Portfolio**: View your cash balance, positions, and P&L in the portfolio summary
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 src/
@@ -87,7 +87,7 @@ src/
  └─ main.tsx                   # Application entry point
 ```
 
-## 🔧 Configuration
+## Configuration
 
 - **Market Tick Interval**: 4 seconds (configurable in `src/hooks/useMarket.ts`)
 - **News Generation Interval**: 30 seconds (configurable in `src/hooks/useMarket.ts`)
@@ -95,14 +95,14 @@ src/
 - **Price History Length**: Last 100 price points per stock
 - **News History Length**: Last 50 news events
 
-## 📝 Notes
+## Notes
 
 - All trading data is persisted in localStorage
 - The market continues to run even if news generation fails (falls back to price drift only)
 - If Claude API is unavailable, the app uses default companies
 - Prices are calculated deterministically using volatility, sentiment, and random drift
 
-## 🚧 Development
+## Development
 
 ```bash
 # Run development server
@@ -118,6 +118,6 @@ npm run preview
 npm run lint
 ```
 
-## 📄 License
+## License
 
 See LICENSE file for details.
