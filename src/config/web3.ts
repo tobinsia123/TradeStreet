@@ -34,15 +34,24 @@ export const ERC20_ABI = [
   },
 ] as const;
 
-// Wagmi config
-export const wagmiConfig = createConfig({
-  chains: [baseChain],
-  connectors: [
-    injected(),
-    metaMask(),
-  ],
-  transports: {
-    [baseChain.id]: http(),
-  },
-});
+// Wagmi config - ensure it's only created once
+let wagmiConfigInstance: ReturnType<typeof createConfig> | null = null;
+
+export function getWagmiConfig() {
+  if (!wagmiConfigInstance) {
+    wagmiConfigInstance = createConfig({
+      chains: [baseChain],
+      connectors: [
+        injected(),
+        metaMask(),
+      ],
+      transports: {
+        [baseChain.id]: http(),
+      },
+    });
+  }
+  return wagmiConfigInstance;
+}
+
+export const wagmiConfig = getWagmiConfig();
 

@@ -1,9 +1,15 @@
+import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { formatUnits } from 'viem';
 import { TCO_TOKEN_ADDRESS, ERC20_ABI } from '../config/web3';
 
 export function TCOBalance() {
+  const [mounted, setMounted] = useState(false);
   const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Read token balance
   const { data: balance, isLoading } = useReadContract({
@@ -25,6 +31,11 @@ export function TCOBalance() {
       enabled: isConnected && !!address && TCO_TOKEN_ADDRESS !== '0x0000000000000000000000000000000000000000',
     },
   });
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null;
+  }
 
   if (!isConnected || !address) {
     return null;

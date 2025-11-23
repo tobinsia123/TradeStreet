@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 
-export function WalletConnect() {
+function WalletConnectInner() {
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
@@ -13,6 +14,8 @@ export function WalletConnect() {
     
     if (connector) {
       connect({ connector });
+    } else {
+      console.warn('No wallet connector available');
     }
   };
 
@@ -41,5 +44,39 @@ export function WalletConnect() {
       {isPending ? 'Connecting...' : 'Connect Wallet'}
     </button>
   );
+}
+
+export function WalletConnect() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Always show button, even during SSR to prevent layout shift
+  if (!mounted) {
+    return (
+      <button
+        disabled
+        className="bg-gray-700 px-4 py-2 rounded font-medium text-sm cursor-not-allowed opacity-50"
+      >
+        Connect Wallet
+      </button>
+    );
+  }
+
+  try {
+    return <WalletConnectInner />;
+  } catch (error) {
+    console.error('WalletConnect error:', error);
+    return (
+      <button
+        disabled
+        className="bg-gray-700 px-4 py-2 rounded font-medium text-sm cursor-not-allowed opacity-50"
+      >
+        Connect Wallet
+      </button>
+    );
+  }
 }
 
