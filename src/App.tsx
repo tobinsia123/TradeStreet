@@ -111,6 +111,7 @@ function App() {
                     </div>
                   </div>
                   <StockChart
+                    key={selectedCompany.ticker}
                     priceHistory={selectedPriceHistory}
                     ticker={selectedCompany.ticker}
                   />
