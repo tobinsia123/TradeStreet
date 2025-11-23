@@ -107,13 +107,22 @@ export function useMarket() {
     };
   }, [state]);
 
-  // News generation loop
+  // News generation loop - generate immediately and then on interval
+  const newsIntervalRef = useRef<number | null>(null);
+  
   useEffect(() => {
     if (!state) return;
     
-    const newsInterval = setInterval(async () => {
+    // Only initialize news generation once
+    if (newsIntervalRef.current !== null) return;
+    
+    // Capture companies once at initialization
+    const companies = state.companies;
+    
+    // Generate news function
+    const generateAndUpdateNews = async () => {
       try {
-        const newsEvents = await generateNews(state.companies, Math.floor(Math.random() * 3) + 1);
+        const newsEvents = await generateNews(companies, Math.floor(Math.random() * 3) + 1);
         
         if (newsEvents.length > 0) {
           setState((prevState) => {
@@ -133,12 +142,22 @@ export function useMarket() {
         }
       } catch (err) {
         console.error('Error generating news:', err);
-        // Continue market operation even if news generation fails
       }
-    }, NEWS_INTERVAL);
+    };
     
-    return () => clearInterval(newsInterval);
-  }, [state]);
+    // Generate news immediately
+    generateAndUpdateNews();
+    
+    // Then generate news on interval
+    newsIntervalRef.current = window.setInterval(generateAndUpdateNews, NEWS_INTERVAL);
+    
+    return () => {
+      if (newsIntervalRef.current !== null) {
+        clearInterval(newsIntervalRef.current);
+        newsIntervalRef.current = null;
+      }
+    };
+  }, [!!state]); // Only depend on whether state exists (boolean)
 
   const handleBuy = useCallback((ticker: string, shares: number) => {
     if (!state) return;

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { NewsEvent } from '../types/market';
 
 interface NewsFeedProps {
@@ -5,7 +6,10 @@ interface NewsFeedProps {
 }
 
 export function NewsFeed({ news }: NewsFeedProps) {
-  const sortedNews = [...news].sort((a, b) => b.timestamp - a.timestamp);
+  // Memoize sorted news to prevent unnecessary re-sorts on every render
+  const sortedNews = useMemo(() => {
+    return [...news].sort((a, b) => b.timestamp - a.timestamp);
+  }, [news]);
 
   if (sortedNews.length === 0) {
     return (
@@ -19,12 +23,12 @@ export function NewsFeed({ news }: NewsFeedProps) {
     <div className="bg-gray-900 border border-gray-700 rounded p-4 h-full overflow-y-auto">
       <div className="text-white font-bold mb-4">Market News</div>
       <div className="space-y-4">
-        {sortedNews.map((item, index) => {
+        {sortedNews.map((item) => {
           const isPositive = item.sentiment > 0;
           const sentimentColor = isPositive ? 'text-green-400' : 'text-red-400';
           
           return (
-            <div key={index} className="border-b border-gray-800 pb-3 last:border-0">
+            <div key={`${item.ticker}-${item.timestamp}`} className="border-b border-gray-800 pb-3 last:border-0">
               <div className="flex justify-between items-start mb-1">
                 <div className="text-white font-mono font-bold text-sm">
                   {item.ticker}

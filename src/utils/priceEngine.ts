@@ -15,10 +15,10 @@ export function calculateNewPrice(
   // Base random drift (normal distribution, mean 0)
   const drift = (Math.random() - 0.5) * 0.02 * Math.max(1, timeDelta); // ±1% max drift per tick, scaled by timeDelta
   
-  // Calculate sentiment impact from recent news (last 60 seconds)
+  // Calculate sentiment impact from recent news (last 120 seconds - longer window for visible impact)
   const now = Date.now();
   const recentNewsForCompany = recentNews.filter(
-    (n) => n.ticker === company.ticker && now - n.timestamp < 60000
+    (n) => n.ticker === company.ticker && now - n.timestamp < 120000
   );
   
   let sentimentImpact = 0;
@@ -27,8 +27,9 @@ export function calculateNewPrice(
       (sum, news) => sum + news.sentiment * news.magnitude,
       0
     );
-    // Sentiment impact scales with volatility
-    sentimentImpact = totalImpact * company.volatility * 0.05; // Max 5% impact
+    // Sentiment impact scales with volatility - increased multiplier for more visible price movements
+    // Higher magnitude news (0.6-1.0) will create more dramatic price swings
+    sentimentImpact = totalImpact * company.volatility * 0.08; // Max 8% impact (increased from 5%)
   }
   
   // Volatility multiplier (higher volatility = larger price swings)
